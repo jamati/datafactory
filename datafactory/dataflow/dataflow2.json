@@ -14,7 +14,7 @@
 			],
 			"sinks": [],
 			"transformations": [],
-			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipLines: 1) ~> MoviesDB"
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesDB"
 		}
 	}
 }
