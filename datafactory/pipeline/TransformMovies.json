@@ -20,10 +20,6 @@
 						"type": "DataFlowReference"
 					},
 					"staging": {
-						"linkedService": {
-							"referenceName": "jamatidatalake",
-							"type": "LinkedServiceReference"
-						},
 						"folderPath": "staging"
 					},
 					"compute": {
