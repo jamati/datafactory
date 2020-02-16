@@ -1,0 +1,16 @@
+{
+	"name": "SynapseJamati",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SynapseJamati",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "transformmovie",
+			"table": "movie"
+		}
+	}
+}
