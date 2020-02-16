@@ -1,0 +1,20 @@
+{
+	"name": "TransformMovies",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MoviesDB",
+						"type": "DatasetReference"
+					},
+					"name": "MoviesDB"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"script": "parameters{\n\tyear as integer\n}\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> MoviesDB"
+		}
+	}
+}
