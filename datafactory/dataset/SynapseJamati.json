@@ -9,8 +9,8 @@
 		"type": "AzureSqlDWTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "transformmovie",
-			"table": "movie"
+			"schema": "dbo",
+			"table": "movies"
 		}
 	}
 }
