@@ -1,0 +1,7 @@
+{
+	"name": "AzureDataLakeStoreCosmosStructuredStreamFile1",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDataLakeStoreCosmosStructuredStreamFile"
+	}
+}

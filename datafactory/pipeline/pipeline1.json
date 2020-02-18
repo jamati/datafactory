@@ -1,10 +1,10 @@
 {
-	"name": "TransformMovies",
+	"name": "pipeline1",
 	"properties": {
 		"activities": [
 			{
-				"name": "TransformMovies",
-				"type": "ExecuteDataFlow",
+				"name": "Copy data1",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -15,18 +15,17 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "TransformMovies",
-						"type": "DataFlowReference"
+					"source": {
+						"type": "AzureDataLakeStoreCosmosStructuredStreamSource"
 					},
-					"staging": {
-						"folderPath": "staging"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "AzureDataLakeStoreCosmosStructuredStreamFile1",
+						"type": "DatasetReference"
 					}
-				}
+				]
 			}
 		],
 		"annotations": []
