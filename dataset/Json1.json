@@ -1,0 +1,57 @@
+{
+	"name": "Json1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLake_DW",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "rawdata"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"temperature": {
+					"type": "number"
+				},
+				"humidity": {
+					"type": "number"
+				},
+				"EventProcessedUtcTime": {
+					"type": "string"
+				},
+				"PartitionId": {
+					"type": "integer"
+				},
+				"EventEnqueuedUtcTime": {
+					"type": "string"
+				},
+				"IoTHub": {
+					"type": "object",
+					"properties": {
+						"MessageId": {
+							"type": "null"
+						},
+						"CorrelationId": {
+							"type": "null"
+						},
+						"ConnectionDeviceId": {
+							"type": "string"
+						},
+						"ConnectionDeviceGenerationId": {
+							"type": "string"
+						},
+						"EnqueuedTime": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	}
+}
