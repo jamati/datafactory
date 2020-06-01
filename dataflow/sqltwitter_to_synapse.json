@@ -1,0 +1,28 @@
+{
+	"name": "sqltwitter_to_synapse",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SqlTable",
+						"type": "DatasetReference"
+					},
+					"name": "sqldata"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "synapse_twitter",
+						"type": "DatasetReference"
+					},
+					"name": "synapse"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\ttwittedby as string,\n\t\tcreatedat as timestamp,\n\t\tsentimento as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sqldata\nsqldata sink(input(\n\t\ttwittedby as string,\n\t\tcriado as timestamp,\n\t\tsentimento as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tmapColumn(\n\t\ttwittedby,\n\t\tcriado = createdat,\n\t\tsentimento\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> synapse"
+		}
+	}
+}

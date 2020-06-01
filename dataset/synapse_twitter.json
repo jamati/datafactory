@@ -1,0 +1,31 @@
+{
+	"name": "synapse_twitter",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse_dw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "twittedby",
+				"type": "varchar"
+			},
+			{
+				"name": "criado",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "sentimento",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "twitter"
+		}
+	}
+}
