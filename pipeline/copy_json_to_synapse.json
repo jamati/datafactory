@@ -1,5 +1,5 @@
 {
-	"name": "pipeline_copyjason",
+	"name": "copy_json_to_synapse",
 	"properties": {
 		"activities": [
 			{
@@ -20,8 +20,6 @@
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
-							"modifiedDatetimeStart": "2020-05-31T00:00:00.000Z",
-							"modifiedDatetimeEnd": "2020-06-01T00:00:00.000Z",
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
