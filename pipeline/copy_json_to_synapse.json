@@ -1,9 +1,9 @@
 {
-	"name": "copy_json_to_synapse2",
+	"name": "copy_json_to_synapse",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_JSON_TO_DW2",
+				"name": "Copy_JSON_TO_DW",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
