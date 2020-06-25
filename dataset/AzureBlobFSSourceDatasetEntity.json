@@ -1,0 +1,11 @@
+{
+	"name": "AzureBlobFSSourceDatasetEntity",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLake_DW",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureBlobFSFile"
+	}
+}
