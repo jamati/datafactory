@@ -1,5 +1,5 @@
 {
-	"name": "Brechos",
+	"name": "BrechosA",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "DataLake_DW",
@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "Thrift_Store_A.csv",
 				"folderPath": "brechos",
 				"fileSystem": "rawdata"
 			},
