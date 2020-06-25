@@ -1,0 +1,16 @@
+{
+	"name": "Synapse_HR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse_dw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "hr"
+		}
+	}
+}
