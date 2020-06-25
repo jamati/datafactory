@@ -1,0 +1,21 @@
+{
+	"name": "profissionais_por_campo",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLake_X",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "datalake-x"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

@@ -1,0 +1,50 @@
+{
+	"name": "SynapseHR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse_dw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "Idade",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "DistanciadeCasa",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Educacao",
+				"type": "varchar"
+			},
+			{
+				"name": "CampodeEstudo",
+				"type": "varchar"
+			},
+			{
+				"name": "SatisfacaonoTrabalho",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Salario",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "WorkLifeBalance",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "hr"
+		}
+	}
+}
