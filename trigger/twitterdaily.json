@@ -1,0 +1,17 @@
+{
+	"name": "twitterdaily",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 8,
+				"startTime": "2020-06-25T03:12:00.000Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
