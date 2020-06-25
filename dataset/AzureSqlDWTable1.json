@@ -1,0 +1,17 @@
+{
+	"name": "AzureSqlDWTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse_dw",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Misc"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"typeProperties": {
+			"tableName": "templatedemodata"
+		}
+	}
+}
