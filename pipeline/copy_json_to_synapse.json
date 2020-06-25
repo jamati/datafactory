@@ -19,7 +19,9 @@
 						"type": "JsonSource",
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
-							"recursive": true
+							"recursive": true,
+							"wildcardFileName": "iot",
+							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
 							"type": "JsonReadSettings"
@@ -34,7 +36,13 @@
 							"useTypeDefault": true
 						}
 					},
-					"enableStaging": false,
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "Blob1demo",
+							"type": "LinkedServiceReference"
+						}
+					},
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
