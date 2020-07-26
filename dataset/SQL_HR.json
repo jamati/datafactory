@@ -1,0 +1,94 @@
+{
+	"name": "SQL_HR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSQL_HR",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Idade",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SaiuDaEmpresa",
+				"type": "varchar"
+			},
+			{
+				"name": "Viagens",
+				"type": "varchar"
+			},
+			{
+				"name": "Departamento",
+				"type": "varchar"
+			},
+			{
+				"name": "DistanciaDeCasa",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Educacao",
+				"type": "varchar"
+			},
+			{
+				"name": "CampodeEstudo",
+				"type": "varchar"
+			},
+			{
+				"name": "Genero",
+				"type": "varchar"
+			},
+			{
+				"name": "NivelPosicao",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Cargo",
+				"type": "varchar"
+			},
+			{
+				"name": "EstadoCivil",
+				"type": "varchar"
+			},
+			{
+				"name": "Salario",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "QtdAnosDaUltimaPromocao",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "QtdTreinamentoUltimoAno",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "QtdAnosNaEmpresa",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "QtdAnosExperiencia",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "QtdAnosComMesmoGerente",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "hr"
+		}
+	}
+}

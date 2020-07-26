@@ -1,0 +1,249 @@
+{
+	"name": "copy_hr-row_to_hr-modified",
+	"properties": {
+		"activities": [
+			{
+				"name": "row-data_to_modified-data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT TOP 2000 * FROM hr;",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Idade",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 1
+								}
+							},
+							{
+								"source": {
+									"name": "SaiuDaEmpresa",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 2
+								}
+							},
+							{
+								"source": {
+									"name": "Viagens",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 3
+								}
+							},
+							{
+								"source": {
+									"name": "Departamento",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 4
+								}
+							},
+							{
+								"source": {
+									"name": "DistanciaDeCasa",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 5
+								}
+							},
+							{
+								"source": {
+									"name": "Educacao",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 6
+								}
+							},
+							{
+								"source": {
+									"name": "CampodeEstudo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 7
+								}
+							},
+							{
+								"source": {
+									"name": "Genero",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 8
+								}
+							},
+							{
+								"source": {
+									"name": "NivelPosicao",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 9
+								}
+							},
+							{
+								"source": {
+									"name": "Cargo",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 10
+								}
+							},
+							{
+								"source": {
+									"name": "EstadoCivil",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"type": "String",
+									"ordinal": 11
+								}
+							},
+							{
+								"source": {
+									"name": "Salario",
+									"type": "Double",
+									"physicalType": "float"
+								},
+								"sink": {
+									"type": "Double",
+									"ordinal": 12
+								}
+							},
+							{
+								"source": {
+									"name": "QtdAnosDaUltimaPromocao",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 13
+								}
+							},
+							{
+								"source": {
+									"name": "QtdTreinamentoUltimoAno",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 14
+								}
+							},
+							{
+								"source": {
+									"name": "QtdAnosNaEmpresa",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 15
+								}
+							},
+							{
+								"source": {
+									"name": "QtdAnosExperiencia",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 16
+								}
+							},
+							{
+								"source": {
+									"name": "QtdAnosComMesmoGerente",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"type": "Int32",
+									"ordinal": 17
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SQL_HR",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "HRdatafromSQL_toHRCSV",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
