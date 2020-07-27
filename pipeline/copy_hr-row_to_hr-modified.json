@@ -310,6 +310,49 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "HR_projeto_bad_attrition",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "row-data_to_modified-data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "copy-surveyrawdata-to-surveymodifieddata",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "HR_projeto_bad_attrition",
+						"type": "DataFlowReference"
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "staging_hr_data",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "datatransformed"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					}
+				}
 			}
 		],
 		"annotations": []
