@@ -1,0 +1,16 @@
+{
+	"name": "FuncionarioSurveyRuim",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse_dw",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "HR",
+			"table": "SurveyRuim"
+		}
+	}
+}
