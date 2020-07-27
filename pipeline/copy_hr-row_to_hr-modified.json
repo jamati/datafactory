@@ -17,7 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT TOP 2000 * FROM hr;",
+						"sqlReaderQuery": "SELECT TOP 2000 * FROM Funcionarios;",
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
