@@ -37,13 +37,24 @@
 						"mappings": [
 							{
 								"source": {
+									"name": "ID",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "ID",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
 									"name": "Idade",
 									"type": "Int32",
 									"physicalType": "int"
 								},
 								"sink": {
-									"type": "Int32",
-									"ordinal": 1
+									"name": "Idade",
+									"type": "Int32"
 								}
 							},
 							{
@@ -53,8 +64,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 2
+									"name": "SaiuDaEmpresa",
+									"type": "String"
 								}
 							},
 							{
@@ -64,8 +75,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 3
+									"name": "Viagens",
+									"type": "String"
 								}
 							},
 							{
@@ -75,8 +86,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 4
+									"name": "Departamento",
+									"type": "String"
 								}
 							},
 							{
@@ -86,8 +97,8 @@
 									"physicalType": "int"
 								},
 								"sink": {
-									"type": "Int32",
-									"ordinal": 5
+									"name": "DistanciaDeCasa",
+									"type": "Int32"
 								}
 							},
 							{
@@ -97,8 +108,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 6
+									"name": "Educacao",
+									"type": "String"
 								}
 							},
 							{
@@ -108,8 +119,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 7
+									"name": "CampodeEstudo",
+									"type": "String"
 								}
 							},
 							{
@@ -119,8 +130,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 8
+									"name": "Genero",
+									"type": "String"
 								}
 							},
 							{
@@ -130,8 +141,8 @@
 									"physicalType": "int"
 								},
 								"sink": {
-									"type": "Int32",
-									"ordinal": 9
+									"name": "NivelPosicao",
+									"type": "Int32"
 								}
 							},
 							{
@@ -141,8 +152,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 10
+									"name": "Cargo",
+									"type": "String"
 								}
 							},
 							{
@@ -152,8 +163,8 @@
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"type": "String",
-									"ordinal": 11
+									"name": "EstadoCivil",
+									"type": "String"
 								}
 							},
 							{
@@ -163,41 +174,8 @@
 									"physicalType": "float"
 								},
 								"sink": {
-									"type": "Double",
-									"ordinal": 12
-								}
-							},
-							{
-								"source": {
-									"name": "QtdAnosDaUltimaPromocao",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"type": "Int32",
-									"ordinal": 13
-								}
-							},
-							{
-								"source": {
-									"name": "QtdTreinamentoUltimoAno",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"type": "Int32",
-									"ordinal": 14
-								}
-							},
-							{
-								"source": {
-									"name": "QtdAnosNaEmpresa",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"type": "Int32",
-									"ordinal": 15
+									"name": "Salario",
+									"type": "Double"
 								}
 							},
 							{
@@ -207,8 +185,41 @@
 									"physicalType": "int"
 								},
 								"sink": {
+									"name": "QtdAnosExperiencia",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "QtdTreinamentoUltimoAno",
 									"type": "Int32",
-									"ordinal": 16
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "QtdTreinamentoUltimoAno",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "QtdAnosNaEmpresa",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "QtdAnosNaEmpresa",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"name": "QtdAnosDaUltimaPromocao",
+									"type": "Int32",
+									"physicalType": "int"
+								},
+								"sink": {
+									"name": "QtdAnosDaUltimaPromocao",
+									"type": "Int32"
 								}
 							},
 							{
@@ -218,8 +229,8 @@
 									"physicalType": "int"
 								},
 								"sink": {
-									"type": "Int32",
-									"ordinal": 17
+									"name": "QtdAnosComMesmoGerente",
+									"type": "Int32"
 								}
 							}
 						],
