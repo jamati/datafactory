@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "mtcadf"
+		},
+		"AzureSQL_HR_connectionString": {
+			"value": ""
+		},
+		"Blob1demo_connectionString": {
+			"value": ""
+		},
+		"DataLake_DW_accountKey": {
+			"value": ""
+		},
+		"DataLake_X_accountKey": {
+			"value": ""
+		},
+		"SQL_DW_connectionString": {
+			"value": ""
+		},
+		"datalakeiot_accountKey": {
+			"value": ""
+		},
+		"parquet_staging_hr_accountKey": {
+			"value": ""
+		},
+		"staging_hr_data_connectionString": {
+			"value": ""
+		},
+		"synapse_dw_connectionString": {
+			"value": ""
+		},
+		"DataLake_DW_properties_typeProperties_url": {
+			"value": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"DataLake_X_properties_typeProperties_url": {
+			"value": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"datalakeiot_properties_typeProperties_url": {
+			"value": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"parquet_staging_hr_properties_typeProperties_url": {
+			"value": "https://mtcrawdata.dfs.core.windows.net"
+		}
+	}
+}

@@ -1,0 +1,630 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "mtcadf"
+		},
+		"AzureSQL_HR_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQL_HR'"
+		},
+		"Blob1demo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Blob1demo'"
+		},
+		"DataLake_DW_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLake_DW'"
+		},
+		"DataLake_X_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLake_X'"
+		},
+		"SQL_DW_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQL_DW'"
+		},
+		"datalakeiot_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'datalakeiot'"
+		},
+		"parquet_staging_hr_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'parquet_staging_hr'"
+		},
+		"staging_hr_data_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'staging_hr_data'"
+		},
+		"synapse_dw_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'synapse_dw'"
+		},
+		"DataLake_DW_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"DataLake_X_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"datalakeiot_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"parquet_staging_hr_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSQL_HR')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSQL_HR_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Blob1demo')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('Blob1demo_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataLake_DW')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('DataLake_DW_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('DataLake_DW_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DataLake_X')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('DataLake_X_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('DataLake_X_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL_DW')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('SQL_DW_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/datalakeiot')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('datalakeiot_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('datalakeiot_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/parquet_staging_hr')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('parquet_staging_hr_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('parquet_staging_hr_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/staging_hr_data')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('staging_hr_data_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/synapse_dw')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": "[parameters('synapse_dw_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/twitterdaily')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 8,
+						"startTime": "2020-06-25T03:12:00.000Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobFSSourceDatasetEntity')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DataLake_DW",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureBlobFSFile",
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DataLake_DW')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDWTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Misc"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"typeProperties": {
+					"tableName": "templatedemodata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FuncionarioSurveyRuim')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FuncBaixaSatisfacao"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HRdatafromSQL_toHRCSV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DataLake_X",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "HR",
+						"fileSystem": "modified-data"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DataLake_X')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Json1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DataLake_DW",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "rawdata"
+					}
+				},
+				"schema": {
+					"type": "object",
+					"properties": {
+						"temperature": {
+							"type": "number"
+						},
+						"humidity": {
+							"type": "number"
+						},
+						"EventProcessedUtcTime": {
+							"type": "string"
+						},
+						"PartitionId": {
+							"type": "integer"
+						},
+						"EventEnqueuedUtcTime": {
+							"type": "string"
+						},
+						"IoTHub": {
+							"type": "object",
+							"properties": {
+								"MessageId": {
+									"type": "null"
+								},
+								"CorrelationId": {
+									"type": "null"
+								},
+								"ConnectionDeviceId": {
+									"type": "string"
+								},
+								"ConnectionDeviceGenerationId": {
+									"type": "string"
+								},
+								"EnqueuedTime": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DataLake_DW')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQL_HR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSQL_HR",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Idade",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SaiuDaEmpresa",
+						"type": "varchar"
+					},
+					{
+						"name": "Viagens",
+						"type": "varchar"
+					},
+					{
+						"name": "Departamento",
+						"type": "varchar"
+					},
+					{
+						"name": "DistanciaDeCasa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Educacao",
+						"type": "varchar"
+					},
+					{
+						"name": "CampodeEstudo",
+						"type": "varchar"
+					},
+					{
+						"name": "Genero",
+						"type": "varchar"
+					},
+					{
+						"name": "NivelPosicao",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Cargo",
+						"type": "varchar"
+					},
+					{
+						"name": "EstadoCivil",
+						"type": "varchar"
+					},
+					{
+						"name": "Salario",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "QtdAnosExperiencia",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "QtdTreinamentoUltimoAno",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "QtdAnosNaEmpresa",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "QtdAnosDaUltimaPromocao",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "QtdAnosComMesmoGerente",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Funcionarios"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSQL_HR')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SQL_DW",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "twittedby",
+						"type": "varchar"
+					},
+					{
+						"name": "createdat",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "sentimento",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "twitter"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SQL_DW')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/StagingParquet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "parquet_staging_hr",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file.parquet",
+						"folderPath": "dataflow",
+						"fileSystem": "staging"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/parquet_staging_hr')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SynapseHR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "Idade",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DistanciadeCasa",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Educacao",
+						"type": "varchar"
+					},
+					{
+						"name": "CampodeEstudo",
+						"type": "varchar"
+					},
+					{
+						"name": "SatisfacaonoTrabalho",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Salario",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "WorkLifeBalance",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "hr"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Synapse_IOT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "temperature",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "humidity",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "EventProcessedUtcTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "iot"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
+			]
+		}
+	]
+}

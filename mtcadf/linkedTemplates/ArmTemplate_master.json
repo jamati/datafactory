@@ -1,0 +1,153 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "mtcadf"
+		},
+		"AzureSQL_HR_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSQL_HR'"
+		},
+		"Blob1demo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Blob1demo'"
+		},
+		"DataLake_DW_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLake_DW'"
+		},
+		"DataLake_X_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DataLake_X'"
+		},
+		"SQL_DW_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQL_DW'"
+		},
+		"datalakeiot_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'datalakeiot'"
+		},
+		"parquet_staging_hr_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'parquet_staging_hr'"
+		},
+		"staging_hr_data_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'staging_hr_data'"
+		},
+		"synapse_dw_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'synapse_dw'"
+		},
+		"DataLake_DW_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"DataLake_X_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"datalakeiot_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"parquet_staging_hr_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureSQL_HR_connectionString": {
+						"value": "[parameters('AzureSQL_HR_connectionString')]"
+					},
+					"Blob1demo_connectionString": {
+						"value": "[parameters('Blob1demo_connectionString')]"
+					},
+					"DataLake_DW_accountKey": {
+						"value": "[parameters('DataLake_DW_accountKey')]"
+					},
+					"DataLake_X_accountKey": {
+						"value": "[parameters('DataLake_X_accountKey')]"
+					},
+					"SQL_DW_connectionString": {
+						"value": "[parameters('SQL_DW_connectionString')]"
+					},
+					"datalakeiot_accountKey": {
+						"value": "[parameters('datalakeiot_accountKey')]"
+					},
+					"parquet_staging_hr_accountKey": {
+						"value": "[parameters('parquet_staging_hr_accountKey')]"
+					},
+					"staging_hr_data_connectionString": {
+						"value": "[parameters('staging_hr_data_connectionString')]"
+					},
+					"synapse_dw_connectionString": {
+						"value": "[parameters('synapse_dw_connectionString')]"
+					},
+					"DataLake_DW_properties_typeProperties_url": {
+						"value": "[parameters('DataLake_DW_properties_typeProperties_url')]"
+					},
+					"DataLake_X_properties_typeProperties_url": {
+						"value": "[parameters('DataLake_X_properties_typeProperties_url')]"
+					},
+					"datalakeiot_properties_typeProperties_url": {
+						"value": "[parameters('datalakeiot_properties_typeProperties_url')]"
+					},
+					"parquet_staging_hr_properties_typeProperties_url": {
+						"value": "[parameters('parquet_staging_hr_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
+		}
+	]
+}
