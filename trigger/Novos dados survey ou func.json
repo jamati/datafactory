@@ -1,0 +1,24 @@
+{
+	"name": "Novos dados survey ou func",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "copy_hr-row_to_hr-modified",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2020-07-27T19:00:00.000Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
