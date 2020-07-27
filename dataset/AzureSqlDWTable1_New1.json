@@ -10,9 +10,6 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
-		"schema": [],
-		"typeProperties": {
-			"tableName": "templatedemodata"
-		}
+		"schema": []
 	}
 }
