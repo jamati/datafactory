@@ -1,0 +1,22 @@
+{
+	"name": "surveymodifieddata",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLake_X",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "HR",
+				"fileSystem": "modified-data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
