@@ -9,6 +9,11 @@
 		"type": "AzureSqlTable",
 		"schema": [
 			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
 				"name": "Idade",
 				"type": "int",
 				"precision": 10
@@ -61,7 +66,7 @@
 				"precision": 15
 			},
 			{
-				"name": "QtdAnosDaUltimaPromocao",
+				"name": "QtdAnosExperiencia",
 				"type": "int",
 				"precision": 10
 			},
@@ -76,7 +81,7 @@
 				"precision": 10
 			},
 			{
-				"name": "QtdAnosExperiencia",
+				"name": "QtdAnosDaUltimaPromocao",
 				"type": "int",
 				"precision": 10
 			},
