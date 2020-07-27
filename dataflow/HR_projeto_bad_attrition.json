@@ -23,9 +23,12 @@
 			"transformations": [
 				{
 					"name": "RenomearColunas"
+				},
+				{
+					"name": "JoinFuncionarioSurvey"
 				}
 			],
-			"script": "source(output(\n\t\tID as short,\n\t\tIdade as short,\n\t\tSaiuDaEmpresa as string,\n\t\tViagens as string,\n\t\tDepartamento as string,\n\t\tDistanciaDeCasa as short,\n\t\tEducacao as short,\n\t\tCampodeEstudo as string,\n\t\tGenero as string,\n\t\tNivelPosicao as short,\n\t\tCargo as string,\n\t\tEstadoCivil as string,\n\t\tSalario as integer,\n\t\tQtdAnosExperiencia as short,\n\t\tQtdTreinamentoUltimoAno as short,\n\t\tQtdAnosNaEmpresa as short,\n\t\tQtdAnosDaUltimaPromocao as short,\n\t\tQtdAnosComMesmoGerente as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> DataFuncionarios\nsource(output(\n\t\tEmployeeID as integer,\n\t\tEnvironmentSatisfaction as integer,\n\t\tJobSatisfaction as integer,\n\t\tWorkLifeBalance as integer\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> FuncionarioSurvey\nFuncionarioSurvey select(mapColumn(\n\t\tID = EmployeeID,\n\t\tSatisfacaoAmbiente = EnvironmentSatisfaction,\n\t\tSatisfacaoTrabalho = JobSatisfaction,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenomearColunas"
+			"script": "source(output(\n\t\tID as short,\n\t\tIdade as short,\n\t\tSaiuDaEmpresa as string,\n\t\tViagens as string,\n\t\tDepartamento as string,\n\t\tDistanciaDeCasa as short,\n\t\tEducacao as short,\n\t\tCampodeEstudo as string,\n\t\tGenero as string,\n\t\tNivelPosicao as short,\n\t\tCargo as string,\n\t\tEstadoCivil as string,\n\t\tSalario as integer,\n\t\tQtdAnosExperiencia as short,\n\t\tQtdTreinamentoUltimoAno as short,\n\t\tQtdAnosNaEmpresa as short,\n\t\tQtdAnosDaUltimaPromocao as short,\n\t\tQtdAnosComMesmoGerente as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> DataFuncionarios\nsource(output(\n\t\tEmployeeID as integer,\n\t\tEnvironmentSatisfaction as integer,\n\t\tJobSatisfaction as integer,\n\t\tWorkLifeBalance as integer\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> FuncionarioSurvey\nFuncionarioSurvey select(mapColumn(\n\t\tID = EmployeeID,\n\t\tSatisfacaoAmbiente = EnvironmentSatisfaction,\n\t\tSatisfacaoTrabalho = JobSatisfaction,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RenomearColunas\nDataFuncionarios, RenomearColunas join(DataFuncionarios@ID == RenomearColunas@ID,\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> JoinFuncionarioSurvey"
 		}
 	}
 }
