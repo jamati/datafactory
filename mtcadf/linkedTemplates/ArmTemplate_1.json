@@ -13,6 +13,95 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SynapseHR')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "Idade",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DistanciadeCasa",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "Educacao",
+						"type": "varchar"
+					},
+					{
+						"name": "CampodeEstudo",
+						"type": "varchar"
+					},
+					{
+						"name": "SatisfacaonoTrabalho",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Salario",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "WorkLifeBalance",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "hr"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Synapse_IOT')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [
+					{
+						"name": "temperature",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "humidity",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "EventProcessedUtcTime",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "iot"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/hrdata')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -237,27 +326,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDWTable1_New1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "synapse_dw",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Misc"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [],
-				"typeProperties": {
-					"tableName": "templatedemodata"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/copy_json_to_synapse')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -356,7 +424,9 @@
 				],
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Synapse_IOT')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HR')]",
@@ -410,12 +480,13 @@
 							"name": "colunasimportantes"
 						}
 					],
-					"script": "source(output(\n\t\tAge as integer,\n\t\tAttrition as boolean,\n\t\tBusinessTravel as string,\n\t\tDailyRate as short,\n\t\tDepartment as string,\n\t\tDistanceFromHome as short,\n\t\tEducation as short,\n\t\tEducationField as string,\n\t\tEmployeeCount as boolean,\n\t\tEmployeeNumber as short,\n\t\tEnvironmentSatisfaction as short,\n\t\tGender as string,\n\t\tHourlyRate as short,\n\t\tJobInvolvement as short,\n\t\tJobLevel as short,\n\t\tJobRole as string,\n\t\tJobSatisfaction as short,\n\t\tMaritalStatus as string,\n\t\tMonthlyIncome as short,\n\t\tMonthlyRate as short,\n\t\tNumCompaniesWorked as short,\n\t\tOver18 as boolean,\n\t\tOverTime as boolean,\n\t\tPercentSalaryHike as short,\n\t\tPerformanceRating as short,\n\t\tRelationshipSatisfaction as short,\n\t\tStandardHours as short,\n\t\tStockOptionLevel as short,\n\t\tTotalWorkingYears as short,\n\t\tTrainingTimesLastYear as short,\n\t\tWorkLifeBalance as short,\n\t\tYearsAtCompany as short,\n\t\tYearsInCurrentRole as short,\n\t\tYearsSinceLastPromotion as short,\n\t\tYearsWithCurrManager as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tinferDriftedColumnTypes: true) ~> hrdata\nhrdata select(mapColumn(\n\t\tIdade = Age,\n\t\tAttrition,\n\t\tBusinessTravel,\n\t\tDailyRate,\n\t\tDepartment,\n\t\tDistanciadeCasa = DistanceFromHome,\n\t\tEducacao = Education,\n\t\tCampodeEstudo = EducationField,\n\t\tEmployeeCount,\n\t\tEmployeeNumber,\n\t\tEnvironmentSatisfaction,\n\t\tGender,\n\t\tHourlyRate,\n\t\tJobInvolvement,\n\t\tJobLevel,\n\t\tJobRole,\n\t\tSatisfacaonoTrabalho = JobSatisfaction,\n\t\tMaritalStatus,\n\t\tSalario = MonthlyIncome,\n\t\tMonthlyRate,\n\t\tNumCompaniesWorked,\n\t\tOver18,\n\t\tOverTime,\n\t\tPercentSalaryHike,\n\t\tPerformanceRating,\n\t\tRelationshipSatisfaction,\n\t\tStandardHours,\n\t\tStockOptionLevel,\n\t\tTotalWorkingYears,\n\t\tTrainingTimesLastYear,\n\t\tWorkLifeBalance,\n\t\tYearsAtCompany,\n\t\tYearsInCurrentRole,\n\t\tYearsSinceLastPromotion,\n\t\tYearsWithCurrManager\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> renomearcolunas\nrenomearcolunas filter(DistanciadeCasa>=10) ~> distanciaCasa\ndistanciaCasa filter(Idade <= 25) ~> idade\nidade aggregate(groupBy(CampodeEstudo),\n\tEmployeeNumber = sum(EmployeeNumber)) ~> CampodeEstudo\nidade filter(CampodeEstudo == 'Technical Degree') ~> CampoEstudo\nCampoEstudo select(mapColumn(\n\t\tIdade,\n\t\tDistanciadeCasa,\n\t\tEducacao,\n\t\tCampodeEstudo,\n\t\tSatisfacaonoTrabalho,\n\t\tSalario,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> colunasimportantes\nCampodeEstudo sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> datalakeX\ncolunasimportantes sink(input(\n\t\tIdade as integer,\n\t\tDistanciadeCasa as double,\n\t\tEducacao as string,\n\t\tCampodeEstudo as string,\n\t\tSatisfacaonoTrabalho as integer,\n\t\tSalario as double,\n\t\tWorkLifeBalance as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> synapseHR"
+					"script": "source(output(\n\t\tAge as integer,\n\t\tAttrition as boolean,\n\t\tBusinessTravel as string,\n\t\tDailyRate as short,\n\t\tDepartment as string,\n\t\tDistanceFromHome as short,\n\t\tEducation as short,\n\t\tEducationField as string,\n\t\tEmployeeCount as boolean,\n\t\tEmployeeNumber as short,\n\t\tEnvironmentSatisfaction as short,\n\t\tGender as string,\n\t\tHourlyRate as short,\n\t\tJobInvolvement as short,\n\t\tJobLevel as short,\n\t\tJobRole as string,\n\t\tJobSatisfaction as short,\n\t\tMaritalStatus as string,\n\t\tMonthlyIncome as short,\n\t\tMonthlyRate as short,\n\t\tNumCompaniesWorked as short,\n\t\tOver18 as boolean,\n\t\tOverTime as boolean,\n\t\tPercentSalaryHike as short,\n\t\tPerformanceRating as short,\n\t\tRelationshipSatisfaction as short,\n\t\tStandardHours as short,\n\t\tStockOptionLevel as short,\n\t\tTotalWorkingYears as short,\n\t\tTrainingTimesLastYear as short,\n\t\tWorkLifeBalance as short,\n\t\tYearsAtCompany as short,\n\t\tYearsInCurrentRole as short,\n\t\tYearsSinceLastPromotion as short,\n\t\tYearsWithCurrManager as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tinferDriftedColumnTypes: true) ~> hrdata\nhrdata select(mapColumn(\n\t\tIdade = Age,\n\t\tAttrition,\n\t\tBusinessTravel,\n\t\tDailyRate,\n\t\tDepartment,\n\t\tDistanciadeCasa = DistanceFromHome,\n\t\tEducacao = Education,\n\t\tCampodeEstudo = EducationField,\n\t\tEmployeeCount,\n\t\tEmployeeNumber,\n\t\tEnvironmentSatisfaction,\n\t\tGender,\n\t\tHourlyRate,\n\t\tJobInvolvement,\n\t\tJobLevel,\n\t\tJobRole,\n\t\tSatisfacaonoTrabalho = JobSatisfaction,\n\t\tMaritalStatus,\n\t\tSalario = MonthlyIncome,\n\t\tMonthlyRate,\n\t\tNumCompaniesWorked,\n\t\tOver18,\n\t\tOverTime,\n\t\tPercentSalaryHike,\n\t\tPerformanceRating,\n\t\tRelationshipSatisfaction,\n\t\tStandardHours,\n\t\tStockOptionLevel,\n\t\tTotalWorkingYears,\n\t\tTrainingTimesLastYear,\n\t\tWorkLifeBalance,\n\t\tYearsAtCompany,\n\t\tYearsInCurrentRole,\n\t\tYearsSinceLastPromotion,\n\t\tYearsWithCurrManager\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> renomearcolunas\nrenomearcolunas filter(DistanciadeCasa>=10) ~> distanciaCasa\ndistanciaCasa filter(Idade <= 25) ~> idade\nidade aggregate(groupBy(CampodeEstudo),\n\tEmployeeNumber = sum(EmployeeNumber)) ~> CampodeEstudo\nidade filter(CampodeEstudo == 'Technical Degree') ~> CampoEstudo\nCampoEstudo select(mapColumn(\n\t\tIdade,\n\t\tDistanciadeCasa,\n\t\tEducacao,\n\t\tCampodeEstudo,\n\t\tSatisfacaonoTrabalho,\n\t\tSalario,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> colunasimportantes\nCampodeEstudo sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> datalakeX\ncolunasimportantes sink(input(\n\t\tIdade as integer,\n\t\tDistanciadeCasa as double,\n\t\tEducacao as string,\n\t\tCampodeEstudo as string,\n\t\tSatisfacaonoTrabalho as integer,\n\t\tSalario as double,\n\t\tWorkLifeBalance as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> synapseHR"
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/hrdata')]",
-				"[concat(variables('factoryId'), '/datasets/profissionais_por_campo')]"
+				"[concat(variables('factoryId'), '/datasets/profissionais_por_campo')]",
+				"[concat(variables('factoryId'), '/datasets/SynapseHR')]"
 			]
 		},
 		{
@@ -467,7 +538,7 @@
 							"name": "SeHouverAlteracao"
 						}
 					],
-					"script": "source(output(\n\t\tID as short,\n\t\tIdade as short,\n\t\tSaiuDaEmpresa as string,\n\t\tViagens as string,\n\t\tDepartamento as string,\n\t\tDistanciaDeCasa as short,\n\t\tEducacao as short,\n\t\tCampodeEstudo as string,\n\t\tGenero as string,\n\t\tNivelPosicao as short,\n\t\tCargo as string,\n\t\tEstadoCivil as string,\n\t\tSalario as integer,\n\t\tQtdAnosExperiencia as short,\n\t\tQtdTreinamentoUltimoAno as short,\n\t\tQtdAnosNaEmpresa as short,\n\t\tQtdAnosDaUltimaPromocao as short,\n\t\tQtdAnosComMesmoGerente as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false) ~> DataFuncionarios\nsource(output(\n\t\tEmployeeID as integer,\n\t\tEnvironmentSatisfaction as integer,\n\t\tJobSatisfaction as integer,\n\t\tWorkLifeBalance as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> FuncionarioSurvey\nFuncionarioSurvey select(mapColumn(\n\t\tID = EmployeeID,\n\t\tSatisfacaoAmbiente = EnvironmentSatisfaction,\n\t\tSatisfacaoTrabalho = JobSatisfaction,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: true) ~> RenomearColunas\nDataFuncionarios, RenomearColunas join(DataFuncionarios@ID == RenomearColunas@ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinFuncionariosSurvey\nJoinFuncionariosSurvey select(mapColumn(\n\t\tID = DataFuncionarios@ID,\n\t\tIdade,\n\t\tSaiuDaEmpresa,\n\t\tViagens,\n\t\tDepartamento,\n\t\tDistanciaDeCasa,\n\t\tEducacao,\n\t\tCampodeEstudo,\n\t\tGenero,\n\t\tNivelPosicao,\n\t\tCargo,\n\t\tEstadoCivil,\n\t\tSalario,\n\t\tQtdAnosExperiencia,\n\t\tQtdTreinamentoUltimoAno,\n\t\tQtdAnosNaEmpresa,\n\t\tQtdAnosDaUltimaPromocao,\n\t\tQtdAnosComMesmoGerente,\n\t\tID = RenomearColunas@ID,\n\t\tSatisfacaoAmbiente,\n\t\tSatisfacaoTrabalho,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RemoverIDDuplicado\nRemoverIDDuplicado filter(SatisfacaoTrabalho<=2) ~> FiltrarBaixaSatisfacaoTrabalho\nFiltrarBaixaSatisfacaoTrabalho alterRow(upsertIf(true())) ~> SeHouverAlteracao\nSeHouverAlteracao sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID'],\n\tformat: 'table',\n\tstaged: true,\n\tmapColumn(\n\t\tID,\n\t\tIdade,\n\t\tSaiuDaEmpresa,\n\t\tViagens,\n\t\tDepartamento,\n\t\tDistanciaDeCasa,\n\t\tEducacao,\n\t\tCampodeEstudo,\n\t\tGenero,\n\t\tNivelPosicao,\n\t\tCargo,\n\t\tEstadoCivil,\n\t\tSalario,\n\t\tQtdAnosExperiencia,\n\t\tQtdTreinamentoUltimoAno,\n\t\tQtdAnosNaEmpresa,\n\t\tQtdAnosDaUltimaPromocao,\n\t\tQtdAnosComMesmoGerente,\n\t\tSatisfacaoAmbiente,\n\t\tSatisfacaoTrabalho,\n\t\tWorkLifeBalance\n\t)) ~> SalvarNoDW"
+					"script": "source(output(\n\t\tID as short,\n\t\tIdade as short,\n\t\tSaiuDaEmpresa as string,\n\t\tViagens as string,\n\t\tDepartamento as string,\n\t\tDistanciaDeCasa as short,\n\t\tEducacao as short,\n\t\tCampodeEstudo as string,\n\t\tGenero as string,\n\t\tNivelPosicao as short,\n\t\tCargo as string,\n\t\tEstadoCivil as string,\n\t\tSalario as integer,\n\t\tQtdAnosExperiencia as short,\n\t\tQtdTreinamentoUltimoAno as short,\n\t\tQtdAnosNaEmpresa as short,\n\t\tQtdAnosDaUltimaPromocao as short,\n\t\tQtdAnosComMesmoGerente as short\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> DataFuncionarios\nsource(output(\n\t\tEmployeeID as integer,\n\t\tEnvironmentSatisfaction as integer,\n\t\tJobSatisfaction as integer,\n\t\tWorkLifeBalance as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> FuncionarioSurvey\nFuncionarioSurvey select(mapColumn(\n\t\tID = EmployeeID,\n\t\tSatisfacaoAmbiente = EnvironmentSatisfaction,\n\t\tSatisfacaoTrabalho = JobSatisfaction,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: true) ~> RenomearColunas\nDataFuncionarios, RenomearColunas join(DataFuncionarios@ID == RenomearColunas@ID,\n\tjoinType:'left',\n\tbroadcast: 'auto')~> JoinFuncionariosSurvey\nJoinFuncionariosSurvey select(mapColumn(\n\t\tID = DataFuncionarios@ID,\n\t\tIdade,\n\t\tSaiuDaEmpresa,\n\t\tViagens,\n\t\tDepartamento,\n\t\tDistanciaDeCasa,\n\t\tEducacao,\n\t\tCampodeEstudo,\n\t\tGenero,\n\t\tNivelPosicao,\n\t\tCargo,\n\t\tEstadoCivil,\n\t\tSalario,\n\t\tQtdAnosExperiencia,\n\t\tQtdTreinamentoUltimoAno,\n\t\tQtdAnosNaEmpresa,\n\t\tQtdAnosDaUltimaPromocao,\n\t\tQtdAnosComMesmoGerente,\n\t\tID = RenomearColunas@ID,\n\t\tSatisfacaoAmbiente,\n\t\tSatisfacaoTrabalho,\n\t\tWorkLifeBalance\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> RemoverIDDuplicado\nRemoverIDDuplicado filter(SatisfacaoTrabalho<=2) ~> FiltrarBaixaSatisfacaoTrabalho\nFiltrarBaixaSatisfacaoTrabalho alterRow(upsertIf(true())) ~> SeHouverAlteracao\nSeHouverAlteracao sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['ID'],\n\tformat: 'table',\n\tstaged: true,\n\tmapColumn(\n\t\tID,\n\t\tIdade,\n\t\tSaiuDaEmpresa,\n\t\tViagens,\n\t\tDepartamento,\n\t\tDistanciaDeCasa,\n\t\tEducacao,\n\t\tCampodeEstudo,\n\t\tGenero,\n\t\tNivelPosicao,\n\t\tCargo,\n\t\tEstadoCivil,\n\t\tSalario,\n\t\tQtdAnosExperiencia,\n\t\tQtdTreinamentoUltimoAno,\n\t\tQtdAnosNaEmpresa,\n\t\tQtdAnosDaUltimaPromocao,\n\t\tQtdAnosComMesmoGerente,\n\t\tSatisfacaoAmbiente,\n\t\tSatisfacaoTrabalho,\n\t\tWorkLifeBalance\n\t)) ~> SalvarNoDW"
 				}
 			},
 			"dependsOn": [
@@ -516,12 +587,11 @@
 							"name": "DurationFilter"
 						}
 					],
-					"script": "source(output(\n\t\t{_col0_} as integer,\n\t\t{_col1_} as string,\n\t\t{_col2_} as string,\n\t\t{_col3_} as string,\n\t\t{_col4_} as integer,\n\t\t{_col5_} as string,\n\t\t{_col6_} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> searchLog\nDateFilter aggregate(groupBy(region),\n\ttotalduration = sum(duration)) ~> totalDurationByRegion\nsearchLog select(mapColumn(\n\t\tuserid = {_col0_},\n\t\tstart = {_col1_},\n\t\tregion = {_col2_},\n\t\tquery = {_col3_},\n\t\tduration = {_col4_},\n\t\turls = {_col5_},\n\t\tclickedurls = {_col6_}\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> RenameColumns\nConvertDate filter(newdate > toDate('2012-02-06','yyyy-MM-dd')) ~> DateFilter\nRenameColumns derive(newdate = toDate(left(start,instr(start,' ')-1),'MM/dd/yyyy')) ~> ConvertDate\ntotalDurationByRegion filter(totalduration > 200) ~> DurationFilter\nDurationFilter sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: false,\n\tmapColumn(\n\t\tregion,\n\t\ttotalduration\n\t)) ~> sinkIntoDW"
+					"script": "source(output(\n\t\t{_col0_} as integer,\n\t\t{_col1_} as string,\n\t\t{_col2_} as string,\n\t\t{_col3_} as string,\n\t\t{_col4_} as integer,\n\t\t{_col5_} as string,\n\t\t{_col6_} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> searchLog\nDateFilter aggregate(groupBy(region),\n\ttotalduration = sum(duration)) ~> totalDurationByRegion\nsearchLog select(mapColumn(\n\t\tuserid = {_col0_},\n\t\tstart = {_col1_},\n\t\tregion = {_col2_},\n\t\tquery = {_col3_},\n\t\tduration = {_col4_},\n\t\turls = {_col5_},\n\t\tclickedurls = {_col6_}\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> RenameColumns\nConvertDate filter(newdate > toDate('2012-02-06','yyyy-MM-dd')) ~> DateFilter\nRenameColumns derive(newdate = toDate(left(start,instr(start,' ')-1),'MM/dd/yyyy')) ~> ConvertDate\ntotalDurationByRegion filter(totalduration > 200) ~> DurationFilter\nDurationFilter sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: false,\n\tmapColumn(\n\t\tregion,\n\t\ttotalduration\n\t)) ~> sinkIntoDW"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/searchLog')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlDWTable1_New1')]"
+				"[concat(variables('factoryId'), '/datasets/searchLog')]"
 			]
 		},
 		{
@@ -550,7 +620,7 @@
 						}
 					],
 					"transformations": [],
-					"script": "source(output(\n\t\ttwittedby as string,\n\t\tcreatedat as timestamp,\n\t\tsentimento as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sqldata\nsqldata sink(input(\n\t\ttwittedby as string,\n\t\tcriado as timestamp,\n\t\tsentimento as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tmapColumn(\n\t\ttwittedby,\n\t\tcriado = createdat,\n\t\tsentimento\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> synapse"
+					"script": "source(output(\n\t\ttwittedby as string,\n\t\tcreatedat as timestamp,\n\t\tsentimento as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> sqldata\nsqldata sink(input(\n\t\ttwittedby as string,\n\t\tcriado as timestamp,\n\t\tsentimento as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tmapColumn(\n\t\ttwittedby,\n\t\tcriado = createdat,\n\t\tsentimento\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> synapse"
 				}
 			},
 			"dependsOn": [
@@ -579,7 +649,8 @@
 							"source": {
 								"type": "AzureSqlSource",
 								"sqlReaderQuery": "SELECT TOP 2000 * FROM Funcionarios;",
-								"queryTimeout": "02:00:00"
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
 							"sink": {
 								"type": "DelimitedTextSink",
@@ -932,36 +1003,6 @@
 				"[concat(variables('factoryId'), '/datasets/surveyrawdata')]",
 				"[concat(variables('factoryId'), '/datasets/surveymodifieddata')]",
 				"[concat(variables('factoryId'), '/dataflows/HR_projeto_bad_attrition')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Novos dados survey ou func')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "copy_hr-row_to_hr-modified",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Minute",
-						"interval": 1,
-						"startTime": "2020-07-27T19:00:00.000Z",
-						"timeZone": "UTC"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/copy_hr-row_to_hr-modified')]"
 			]
 		}
 	]

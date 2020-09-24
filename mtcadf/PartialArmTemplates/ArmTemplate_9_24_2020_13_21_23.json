@@ -6,58 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "mtcadf"
-		},
-		"AzureSQL_HR_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureSQL_HR'"
-		},
-		"Blob1demo_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Blob1demo'"
-		},
-		"DataLake_DW_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'DataLake_DW'"
-		},
-		"DataLake_X_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'DataLake_X'"
-		},
-		"SQL_DW_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'SQL_DW'"
-		},
-		"datalakeiot_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'datalakeiot'"
-		},
-		"parquet_staging_hr_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'parquet_staging_hr'"
-		},
-		"staging_hr_data_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'staging_hr_data'"
-		},
-		"synapse_dw_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'synapse_dw'"
-		},
-		"DataLake_DW_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
-		},
-		"DataLake_X_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
-		},
-		"datalakeiot_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
-		},
-		"parquet_staging_hr_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://mtcrawdata.dfs.core.windows.net"
 		}
 	},
 	"variables": {
@@ -313,15 +261,13 @@
 						"inputs": [
 							{
 								"referenceName": "SQL_HR",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "HRdatafromSQL_toHRCSV",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -372,15 +318,13 @@
 						"inputs": [
 							{
 								"referenceName": "surveyrawdata",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "surveymodifieddata",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -412,13 +356,7 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "HR_projeto_bad_attrition",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"DataFuncionarios": {},
-									"FuncionarioSurvey": {},
-									"SalvarNoDW": {}
-								}
+								"type": "DataFlowReference"
 							},
 							"staging": {
 								"linkedService": {
@@ -441,8 +379,7 @@
 				"[concat(variables('factoryId'), '/datasets/HRdatafromSQL_toHRCSV')]",
 				"[concat(variables('factoryId'), '/datasets/surveyrawdata')]",
 				"[concat(variables('factoryId'), '/datasets/surveymodifieddata')]",
-				"[concat(variables('factoryId'), '/dataflows/HR_projeto_bad_attrition')]",
-				"[concat(variables('factoryId'), '/linkedServices/staging_hr_data')]"
+				"[concat(variables('factoryId'), '/dataflows/HR_projeto_bad_attrition')]"
 			]
 		},
 		{
@@ -529,15 +466,13 @@
 						"inputs": [
 							{
 								"referenceName": "Json1",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "Synapse_IOT",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -546,8 +481,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Json1')]",
-				"[concat(variables('factoryId'), '/datasets/Synapse_IOT')]",
-				"[concat(variables('factoryId'), '/linkedServices/Blob1demo')]"
+				"[concat(variables('factoryId'), '/datasets/Synapse_IOT')]"
 			]
 		},
 		{
@@ -560,8 +494,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "AzureBlobFSFile",
-				"typeProperties": {}
+				"type": "AzureBlobFSFile"
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/DataLake_DW')]"
@@ -585,9 +518,7 @@
 					"tableName": "templatedemodata"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDWTable1_New1')]",
@@ -608,9 +539,7 @@
 					"tableName": "templatedemodata"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/FuncionarioSurveyRuim')]",
@@ -629,9 +558,7 @@
 					"table": "FuncBaixaSatisfacao"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/HRdatafromSQL_toHRCSV')]",
@@ -823,9 +750,7 @@
 					"table": "Funcionarios"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSQL_HR')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlTable')]",
@@ -859,9 +784,7 @@
 					"table": "twitter"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SQL_DW')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/StagingParquet')]",
@@ -940,9 +863,7 @@
 					"table": "hr"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Synapse_IOT')]",
@@ -978,9 +899,7 @@
 					"table": "iot"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/hrdata')]",
@@ -1090,9 +1009,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Blob1demo')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/surveymodifieddata')]",
@@ -1214,34 +1131,6 @@
 					"table": "twitter"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSQL_HR')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureSQL_HR_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Blob1demo')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('Blob1demo_connectionString')]"
-				}
-			},
 			"dependsOn": []
 		},
 		{
@@ -1252,10 +1141,10 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('DataLake_DW_properties_typeProperties_url')]",
+					"url": "https://mtcrawdata.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('DataLake_DW_accountKey')]"
+						"value": "**********"
 					}
 				}
 			},
@@ -1269,24 +1158,11 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('DataLake_X_properties_typeProperties_url')]",
+					"url": "https://mtcrawdata.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('DataLake_X_accountKey')]"
+						"value": "**********"
 					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SQL_DW')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('SQL_DW_connectionString')]"
 				}
 			},
 			"dependsOn": []
@@ -1299,10 +1175,10 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('datalakeiot_properties_typeProperties_url')]",
+					"url": "https://mtcrawdata.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('datalakeiot_accountKey')]"
+						"value": "**********"
 					}
 				}
 			},
@@ -1316,37 +1192,11 @@
 				"annotations": [],
 				"type": "AzureBlobFS",
 				"typeProperties": {
-					"url": "[parameters('parquet_staging_hr_properties_typeProperties_url')]",
+					"url": "https://mtcrawdata.dfs.core.windows.net",
 					"accountKey": {
 						"type": "SecureString",
-						"value": "[parameters('parquet_staging_hr_accountKey')]"
+						"value": "**********"
 					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/staging_hr_data')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('staging_hr_data_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/synapse_dw')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDW",
-				"typeProperties": {
-					"connectionString": "[parameters('synapse_dw_connectionString')]"
 				}
 			},
 			"dependsOn": []

@@ -73,7 +73,7 @@
 	},
 	"resources": [
 		{
-			"name": "ArmTemplate_0",
+			"name": "mtcadf_ArmTemplate_0",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2018-02-01",
 			"properties": {
@@ -130,7 +130,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "ArmTemplate_1",
+			"name": "mtcadf_ArmTemplate_1",
 			"type": "Microsoft.Resources/deployments",
 			"apiVersion": "2018-02-01",
 			"properties": {
@@ -146,7 +146,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+				"[resourceId('Microsoft.Resources/deployments', 'mtcadf_ArmTemplate_0')]"
 			]
 		}
 	]

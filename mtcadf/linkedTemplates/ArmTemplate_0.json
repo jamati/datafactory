@@ -218,6 +218,56 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/email_falha_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "falha de pipeline",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-47.eastus2.logic.azure.com:443/workflows/10a2720a92734304bddba09b52d6764b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=onKoXJckkA6dOEN4WC7KNhx8t5jD56cXxyFPE53oBdI",
+							"method": "POST",
+							"headers": {
+								"Content-Type": "application/json"
+							},
+							"body": {
+								"EmailTo": "@{pipeline().parameters.EmailTo}",
+								"Subject": "An error has occured in the @{pipeline().Pipeline}-pipeline",
+								"DataFactoryName": "@{pipeline().DataFactory}",
+								"PipelineName": "@{pipeline().Pipeline}",
+								"Activity": "@{pipeline().parameters.Activity}",
+								"ErrorMessage": "@{pipeline().parameters.ErrorMessage}"
+							}
+						}
+					}
+				],
+				"parameters": {
+					"EmailTo": {
+						"type": "string"
+					},
+					"Activity": {
+						"type": "string"
+					},
+					"ErrorMessage": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobFSSourceDatasetEntity')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -248,6 +298,29 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlDWTable",
+				"typeProperties": {
+					"tableName": "templatedemodata"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDWTable1_New1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "synapse_dw",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Misc"
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
 				"typeProperties": {
 					"tableName": "templatedemodata"
 				}
@@ -531,99 +604,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/parquet_staging_hr')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SynapseHR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "synapse_dw",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "Idade",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DistanciadeCasa",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Educacao",
-						"type": "varchar"
-					},
-					{
-						"name": "CampodeEstudo",
-						"type": "varchar"
-					},
-					{
-						"name": "SatisfacaonoTrabalho",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Salario",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "WorkLifeBalance",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "hr"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Synapse_IOT')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "synapse_dw",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "temperature",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "humidity",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "EventProcessedUtcTime",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "iot"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/synapse_dw')]"
 			]
 		}
 	]
