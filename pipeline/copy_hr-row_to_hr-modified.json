@@ -18,7 +18,8 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": "SELECT TOP 2000 * FROM Funcionarios;",
-						"queryTimeout": "02:00:00"
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
 					},
 					"sink": {
 						"type": "DelimitedTextSink",

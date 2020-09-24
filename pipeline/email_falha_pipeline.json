@@ -1,0 +1,47 @@
+{
+	"name": "email_falha_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "falha de pipeline",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-47.eastus2.logic.azure.com:443/workflows/10a2720a92734304bddba09b52d6764b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=onKoXJckkA6dOEN4WC7KNhx8t5jD56cXxyFPE53oBdI",
+					"method": "POST",
+					"headers": {
+						"Content-Type": "application/json"
+					},
+					"body": {
+						"EmailTo": "@{pipeline().parameters.EmailTo}",
+						"Subject": "An error has occured in the @{pipeline().Pipeline}-pipeline",
+						"DataFactoryName": "@{pipeline().DataFactory}",
+						"PipelineName": "@{pipeline().Pipeline}",
+						"Activity": "@{pipeline().parameters.Activity}",
+						"ErrorMessage": "@{pipeline().parameters.ErrorMessage}"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"EmailTo": {
+				"type": "string"
+			},
+			"Activity": {
+				"type": "string"
+			},
+			"ErrorMessage": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}
