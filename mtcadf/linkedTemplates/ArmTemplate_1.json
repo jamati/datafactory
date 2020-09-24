@@ -995,6 +995,31 @@
 								"computeType": "General"
 							}
 						}
+					},
+					{
+						"name": "Enviar email sobre falhas",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "row-data_to_modified-data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "email_falha_pipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"EmailTo": "fajamati@microsoft.com",
+								"Activity": "row-data_to_modified-data",
+								"ErrorMessage": "@{activity('row-data_to_modified-data').Error.Message}"
+							}
+						}
 					}
 				],
 				"annotations": []

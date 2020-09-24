@@ -432,6 +432,31 @@
 								"computeType": "General"
 							}
 						}
+					},
+					{
+						"name": "Enviar email sobre falhas",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "row-data_to_modified-data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "email_falha_pipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"EmailTo": "fajamati@microsoft.com",
+								"Activity": "row-data_to_modified-data",
+								"ErrorMessage": "@{activity('row-data_to_modified-data').Error.Message}"
+							}
+						}
 					}
 				],
 				"annotations": []
@@ -442,7 +467,8 @@
 				"[concat(variables('factoryId'), '/datasets/surveyrawdata')]",
 				"[concat(variables('factoryId'), '/datasets/surveymodifieddata')]",
 				"[concat(variables('factoryId'), '/dataflows/HR_projeto_bad_attrition')]",
-				"[concat(variables('factoryId'), '/linkedServices/staging_hr_data')]"
+				"[concat(variables('factoryId'), '/linkedServices/staging_hr_data')]",
+				"[concat(variables('factoryId'), '/pipelines/email_falha_pipeline')]"
 			]
 		},
 		{
@@ -549,6 +575,56 @@
 				"[concat(variables('factoryId'), '/datasets/Synapse_IOT')]",
 				"[concat(variables('factoryId'), '/linkedServices/Blob1demo')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/email_falha_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "falha de pipeline",
+						"type": "WebActivity",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-47.eastus2.logic.azure.com:443/workflows/10a2720a92734304bddba09b52d6764b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=onKoXJckkA6dOEN4WC7KNhx8t5jD56cXxyFPE53oBdI",
+							"method": "POST",
+							"headers": {
+								"Content-Type": "application/json"
+							},
+							"body": {
+								"EmailTo": "@{pipeline().parameters.EmailTo}",
+								"Subject": "An error has occured in the @{pipeline().Pipeline}-pipeline",
+								"DataFactoryName": "@{pipeline().DataFactory}",
+								"PipelineName": "@{pipeline().Pipeline}",
+								"Activity": "@{pipeline().parameters.Activity}",
+								"ErrorMessage": "@{pipeline().parameters.ErrorMessage}"
+							}
+						}
+					}
+				],
+				"parameters": {
+					"EmailTo": {
+						"type": "string"
+					},
+					"Activity": {
+						"type": "string"
+					},
+					"ErrorMessage": {
+						"type": "string"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobFSSourceDatasetEntity')]",
@@ -1573,56 +1649,6 @@
 				"[concat(variables('factoryId'), '/datasets/SqlTable')]",
 				"[concat(variables('factoryId'), '/datasets/synapse_twitter')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/email_falha_pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "falha de pipeline",
-						"type": "WebActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-47.eastus2.logic.azure.com:443/workflows/10a2720a92734304bddba09b52d6764b/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=onKoXJckkA6dOEN4WC7KNhx8t5jD56cXxyFPE53oBdI",
-							"method": "POST",
-							"headers": {
-								"Content-Type": "application/json"
-							},
-							"body": {
-								"EmailTo": "@{pipeline().parameters.EmailTo}",
-								"Subject": "An error has occured in the @{pipeline().Pipeline}-pipeline",
-								"DataFactoryName": "@{pipeline().DataFactory}",
-								"PipelineName": "@{pipeline().Pipeline}",
-								"Activity": "@{pipeline().parameters.Activity}",
-								"ErrorMessage": "@{pipeline().parameters.ErrorMessage}"
-							}
-						}
-					}
-				],
-				"parameters": {
-					"EmailTo": {
-						"type": "string"
-					},
-					"Activity": {
-						"type": "string"
-					},
-					"ErrorMessage": {
-						"type": "string"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
 		}
 	]
 }
