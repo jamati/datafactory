@@ -2,14 +2,22 @@
 	"name": "twitterdaily",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
-		"pipelines": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "copy_hr-row_to_hr-modified",
+					"type": "PipelineReference"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
 				"frequency": "Hour",
-				"interval": 8,
-				"startTime": "2020-06-25T03:12:00.000Z",
+				"interval": 4,
+				"startTime": "2020-12-03T03:20:00Z",
+				"endTime": "2020-12-03T22:36:00Z",
 				"timeZone": "UTC"
 			}
 		}
