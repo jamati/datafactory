@@ -38,35 +38,26 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "ID",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "ID",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
 									"name": "Idade",
-									"type": "Int32",
-									"physicalType": "int"
-								},
-								"sink": {
-									"name": "Idade",
-									"type": "Int32"
-								}
-							},
-							{
-								"source": {
-									"name": "SaiuDaEmpresa",
 									"type": "String",
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "SaiuDaEmpresa",
-									"type": "String"
+									"name": "Idade",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Saiu_da_empresa",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Saiu_da_empresa",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
@@ -77,7 +68,8 @@
 								},
 								"sink": {
 									"name": "Viagens",
-									"type": "String"
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
@@ -88,18 +80,20 @@
 								},
 								"sink": {
 									"name": "Departamento",
-									"type": "String"
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "DistanciaDeCasa",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Distancia_de_casa",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "DistanciaDeCasa",
-									"type": "Int32"
+									"name": "Distancia_de_casa",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
@@ -110,18 +104,32 @@
 								},
 								"sink": {
 									"name": "Educacao",
-									"type": "String"
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "CampodeEstudo",
+									"name": "Area_de_formacao",
 									"type": "String",
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "CampodeEstudo",
-									"type": "String"
+									"name": "Area_de_formacao",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "ID_funcionario",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "ID_funcionario",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
@@ -132,18 +140,20 @@
 								},
 								"sink": {
 									"name": "Genero",
-									"type": "String"
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "NivelPosicao",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Nivel_posicao",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "NivelPosicao",
-									"type": "Int32"
+									"name": "Nivel_posicao",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
@@ -154,84 +164,128 @@
 								},
 								"sink": {
 									"name": "Cargo",
-									"type": "String"
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "EstadoCivil",
+									"name": "Estado_Civel",
 									"type": "String",
 									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "EstadoCivil",
-									"type": "String"
+									"name": "Estado_Civel",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "Salario",
-									"type": "Double",
-									"physicalType": "float"
+									"name": "Renda_mensal",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "Salario",
-									"type": "Double"
+									"name": "Renda_mensal",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "QtdAnosExperiencia",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Num_empresas_trabalhou",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "QtdAnosExperiencia",
-									"type": "Int32"
+									"name": "Num_empresas_trabalhou",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "QtdTreinamentoUltimoAno",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Aumento_salarial_ultimo_ano_em_%",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "QtdTreinamentoUltimoAno",
-									"type": "Int32"
+									"name": "Aumento_salarial_ultimo_ano_em_%",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "QtdAnosNaEmpresa",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Nivel_opcao_acoes",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "QtdAnosNaEmpresa",
-									"type": "Int32"
+									"name": "Nivel_opcao_acoes",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "QtdAnosDaUltimaPromocao",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Experiencia_anos",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "QtdAnosDaUltimaPromocao",
-									"type": "Int32"
+									"name": "Experiencia_anos",
+									"type": "String",
+									"physicalType": "String"
 								}
 							},
 							{
 								"source": {
-									"name": "QtdAnosComMesmoGerente",
-									"type": "Int32",
-									"physicalType": "int"
+									"name": "Qtd_treinamento_ultimo_ano",
+									"type": "String",
+									"physicalType": "varchar"
 								},
 								"sink": {
-									"name": "QtdAnosComMesmoGerente",
-									"type": "Int32"
+									"name": "Qtd_treinamento_ultimo_ano",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Anos_na_empresa",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Anos_na_empresa",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Anos_da_ultima_promocao",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Anos_da_ultima_promocao",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Anos_com_mesmo_Gerente",
+									"type": "String",
+									"physicalType": "varchar"
+								},
+								"sink": {
+									"name": "Anos_com_mesmo_Gerente",
+									"type": "String",
+									"physicalType": "String"
 								}
 							}
 						],
@@ -352,7 +406,8 @@
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
-					}
+					},
+					"traceLevel": "Fine"
 				}
 			},
 			{
@@ -376,7 +431,10 @@
 					"parameters": {
 						"EmailTo": "fajamati@microsoft.com",
 						"Activity": "row-data_to_modified-data",
-						"ErrorMessage": "@{activity('row-data_to_modified-data').Error.Message}"
+						"ErrorMessage": {
+							"value": "@{activity('row-data_to_modified-data').Error.Message}",
+							"type": "Expression"
+						}
 					}
 				}
 			}
