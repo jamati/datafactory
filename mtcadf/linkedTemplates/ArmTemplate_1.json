@@ -13,59 +13,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/SynapseHR')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "synapse_dw",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlDWTable",
-				"schema": [
-					{
-						"name": "Idade",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DistanciadeCasa",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "Educacao",
-						"type": "varchar"
-					},
-					{
-						"name": "CampodeEstudo",
-						"type": "varchar"
-					},
-					{
-						"name": "SatisfacaonoTrabalho",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Salario",
-						"type": "float",
-						"precision": 15
-					},
-					{
-						"name": "WorkLifeBalance",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "hr"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Synapse_IOT')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -485,8 +432,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/hrdata')]",
-				"[concat(variables('factoryId'), '/datasets/profissionais_por_campo')]",
-				"[concat(variables('factoryId'), '/datasets/SynapseHR')]"
+				"[concat(variables('factoryId'), '/datasets/profissionais_por_campo')]"
 			]
 		},
 		{
@@ -993,7 +939,8 @@
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
-							}
+							},
+							"traceLevel": "Fine"
 						}
 					},
 					{
@@ -1017,7 +964,10 @@
 							"parameters": {
 								"EmailTo": "fajamati@microsoft.com",
 								"Activity": "row-data_to_modified-data",
-								"ErrorMessage": "@{activity('row-data_to_modified-data').Error.Message}"
+								"ErrorMessage": {
+									"value": "@{activity('row-data_to_modified-data').Error.Message}",
+									"type": "Expression"
+								}
 							}
 						}
 					}
@@ -1028,6 +978,37 @@
 				"[concat(variables('factoryId'), '/datasets/surveyrawdata')]",
 				"[concat(variables('factoryId'), '/datasets/surveymodifieddata')]",
 				"[concat(variables('factoryId'), '/dataflows/HR_projeto_bad_attrition')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/twitterdaily')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "copy_hr-row_to_hr-modified",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 4,
+						"startTime": "2020-12-03T03:20:00Z",
+						"endTime": "2020-12-03T22:36:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/copy_hr-row_to_hr-modified')]"
 			]
 		}
 	]
