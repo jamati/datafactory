@@ -1,0 +1,463 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "mtcadf"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/copy_hr-row_to_hr-modified')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "row-data_to_modified-data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "SELECT TOP 2000 * FROM Funcionarios;",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Idade",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Idade",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Saiu_da_empresa",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Saiu_da_empresa",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Viagens",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Viagens",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Departamento",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Departamento",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Distancia_de_casa",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Distancia_de_casa",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Educacao",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Educacao",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Area_de_formacao",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Area_de_formacao",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "ID_funcionario",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "ID_funcionario",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Genero",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Genero",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Nivel_posicao",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Nivel_posicao",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Cargo",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Cargo",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Estado_Civel",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Estado_Civel",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Renda_mensal",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Renda_mensal",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Num_empresas_trabalhou",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Num_empresas_trabalhou",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Aumento_salarial_ultimo_ano_em_%",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Aumento_salarial_ultimo_ano_em_%",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Nivel_opcao_acoes",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Nivel_opcao_acoes",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Experiencia_anos",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Experiencia_anos",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Qtd_treinamento_ultimo_ano",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Qtd_treinamento_ultimo_ano",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Anos_na_empresa",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Anos_na_empresa",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Anos_da_ultima_promocao",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Anos_da_ultima_promocao",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Anos_com_mesmo_Gerente",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Anos_com_mesmo_Gerente",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SQL_HR",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "HRdatafromSQL_toHRCSV",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "copy-surveyrawdata-to-surveymodifieddata",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "surveyrawdata",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "surveymodifieddata",
+								"type": "DatasetReference"
+							}
+						]
+					},
+					{
+						"name": "HR_projeto_bad_attrition",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "row-data_to_modified-data",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "copy-surveyrawdata-to-surveymodifieddata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "HR_projeto_bad_attrition",
+								"type": "DataFlowReference"
+							},
+							"staging": {
+								"linkedService": {
+									"referenceName": "staging_hr_data",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "datatransformed"
+							},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "Enviar email sobre falhas",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "row-data_to_modified-data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "email_falha_pipeline",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": true,
+							"parameters": {
+								"EmailTo": "fajamati@microsoft.com",
+								"Activity": "row-data_to_modified-data",
+								"ErrorMessage": {
+									"value": "@{activity('row-data_to_modified-data').Error.Message}",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
